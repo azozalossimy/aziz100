@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My Web Playground | مساحتي الأولى في عالم الويب</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#fbf1e4;--mute:#cdbfae;--card:rgba(26,13,20,.74);--line:rgba(232,176,75,.3);--gold:#e8b04b;--rose:#ff86b3;--mint:#7fd1b9;--code:#0c0709;--codeink:#f3e9dc;--veil:.62;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{background:#1a0a10;scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+body::before{content:"";position:fixed;inset:0;z-index:-1;
+  background:linear-gradient(rgba(12,6,12,var(--veil)),rgba(12,6,12,calc(var(--veil) + .15))),url("bg.jpg") center/cover no-repeat;transition:.4s}
+body.clear{--veil:.35}
+body.party{--gold:#ff86b3}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font-family:"Tajawal",system-ui,sans-serif;line-height:1.8}
+.wrap{max-width:860px;margin:auto;padding:0 18px 60px}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:rgba(18,9,14,.88);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);display:flex;gap:6px;overflow-x:auto;padding:8px 18px;align-items:center}
+nav a{white-space:nowrap;color:var(--mute);text-decoration:none;font-size:14px;padding:4px 10px;border-radius:8px}
+nav a:hover,nav a:focus-visible{background:rgba(232,176,75,.18);color:var(--ink);outline:none}
+nav button{margin-inline-start:auto;white-space:nowrap}
+button{font:inherit;cursor:pointer;border:0;border-radius:10px;padding:8px 16px;background:var(--gold);color:#2a1606;font-weight:800}
+button:focus-visible{outline:3px solid #fff;outline-offset:2px}
+button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+header{padding:56px 0 30px}
+.hello{display:flex;gap:16px;align-items:center;margin-bottom:18px}
+.avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#b5502f);display:grid;place-items:center;color:#2a1606;font:800 28px "IBM Plex Mono",monospace;flex:none}
+h1.big{font-size:clamp(34px,8vw,60px);line-height:1.15;margin:0;font-weight:800;text-shadow:0 2px 14px rgba(0,0,0,.6)}
+.tag{color:var(--mute);margin:4px 0 0}
+section{margin-top:54px}
+h2{font-size:28px;margin:0 0 4px;text-shadow:0 2px 10px rgba(0,0,0,.5)}
+h2 small{display:block;color:var(--gold);font:600 14px "IBM Plex Mono",monospace;direction:ltr;text-align:right}
+.q{color:var(--mute);margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-top:14px;backdrop-filter:blur(4px)}
+.flow{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap}
+.node{flex:1 1 150px;border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center;background:rgba(255,255,255,.05)}
+.node b{display:block;font-size:18px}
+.arrow{align-self:center;color:var(--gold);font-weight:800}
+.code{direction:ltr;text-align:left;background:var(--code);border:1px solid #2a1a12;border-radius:12px;overflow:hidden;margin:12px 0}
+.code .bar{padding:6px 12px;color:#b9a58c;font:12px "IBM Plex Mono",monospace;border-bottom:1px solid #2a1a12}
+.row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);border-bottom:1px solid #22150e}
+.row:last-child{border:0}
+.row pre{margin:0;padding:8px 12px;color:var(--codeink);font:14px/1.6 "IBM Plex Mono",monospace;white-space:pre-wrap;overflow-wrap:anywhere}
+.row p{margin:0;padding:8px 12px;direction:rtl;text-align:right;color:#f6dca2;font-size:14px;line-height:1.7;background:#1d1109}
+@media (max-width:620px){.row{grid-template-columns:1fr}.row p{padding-top:2px}}
+.demo{background:#fff8ee;color:#2a1a10;border:2px dashed #d9b27a;border-radius:12px;padding:16px;margin-top:10px}
+.demo .lbl{font-size:13px;color:#7a6a58}
+.demo h1,.demo h3{margin:4px 0;font-size:28px}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:520px){.ba{grid-template-columns:1fr}}
+.demo button{margin-top:6px}
+.purple{color:purple}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:620px){.pair{grid-template-columns:1fr}}
+.flip{perspective:900px;min-height:230px;padding:0;background:none;border:0;color:var(--ink);text-align:right}
+.flip>div{position:relative;height:100%;min-height:230px;transition:transform .6s;transform-style:preserve-3d}
+.flip.on>div{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;padding:18px;border:1px solid var(--line);background:rgba(26,13,20,.9);overflow:auto;font-weight:400}
+.face.back{transform:rotateY(180deg);background:var(--code);color:var(--codeink)}
+.fe{border-top:4px solid var(--gold)}
+.be{border-top:4px solid var(--mint)}
+.mini{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.mini span{background:rgba(255,255,255,.08);border:1px solid var(--line);border-radius:8px;padding:2px 10px;font-size:14px}
+.screen{background:var(--code);border:2px solid var(--gold);border-radius:14px;overflow:hidden}
+.screenbar{display:flex;gap:6px;align-items:center;padding:8px 12px;border-bottom:1px solid #2a1a12;direction:ltr}
+.screenbar span{width:10px;height:10px;border-radius:50%;background:var(--gold)}
+.screenbar b{margin-inline-start:8px;color:#b9a58c;font:12px "IBM Plex Mono",monospace}
+.gold{margin:0;padding:22px;min-height:11em;color:#ffd66b;font-size:20px;font-weight:700;line-height:2}
+.gold b{color:#fff}
+.progress{height:4px;background:#2a1a12}
+.progress i{display:block;height:100%;width:0;background:var(--gold)}
+video{width:100%;max-height:480px;border-radius:12px;background:#000;display:block}
+/* ===== قسم الورد الطائفي (وردي) ===== */
+.rose{background:linear-gradient(160deg,rgba(255,134,179,.22),rgba(110,18,58,.45));border:2px solid var(--rose);border-radius:22px;padding:26px;backdrop-filter:blur(5px)}
+.rose h2,.rose h3{color:var(--rose)}
+.rose h2 small{color:#ffc2d9}
+.lead{font-size:19px;margin:6px 0 16px}
+.rosegrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:620px){.rosegrid{grid-template-columns:1fr}}
+.rosegrid article{border:1px solid rgba(255,134,179,.45);background:rgba(255,134,179,.09);border-radius:14px;padding:16px}
+.rosegrid h3{margin:0 0 6px;font-size:22px}
+.rosegrid p{margin:0}
+.steps{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.steps button{background:transparent;color:var(--ink);border:1px solid var(--rose);font-weight:700}
+.steps button[aria-pressed="true"]{background:var(--rose);color:#3a0a1e}
+.steptext{min-height:3.6em;margin:0 0 12px;padding:12px 14px;border-inline-start:4px solid var(--rose);background:rgba(0,0,0,.25);border-radius:8px}
+#petalBtn{background:var(--rose);color:#3a0a1e}
+.petal{position:fixed;top:-30px;width:14px;height:18px;background:linear-gradient(135deg,#ffb3cd,#ff6f9f);border-radius:100% 0 100% 0;pointer-events:none;z-index:50;animation:fall linear forwards}
+@keyframes fall{to{transform:translate(var(--dx),110vh) rotate(540deg);opacity:.25}}
+details{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-top:12px;background:var(--card)}
+summary{cursor:pointer;font-weight:700}
+.ai{border:2px solid var(--gold)}
+footer{margin-top:60px;color:var(--mute);text-align:center;font-size:14px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<nav aria-label="التنقل">
+  <a href="#about">من أنا</a><a href="#dev">تعريف المطور</a><a href="#web">الويب</a><a href="#html">HTML</a><a href="#css">CSS</a><a href="#js">JavaScript</a><a href="#fb">Frontend/Backend</a><a href="#solve">Solve Problems</a><a href="#rose">الورد الطائفي</a><a href="#ai">AI</a>
+  <button class="ghost" id="veilBtn" type="button">🌅 خلفية أوضح</button>
+</nav>
+
+<div class="wrap">
+<header id="about">
+  <div class="hello">
+    <div class="avatar" aria-hidden="true">&lt;/&gt;</div>
+    <div>
+      <h1 class="big">Hello, I'm a Web Developer</h1>
+      <p class="tag">أنا عبدالعزيز عبدالعزيز محمد العصيمي، من مسار Web Development، وأتطلع إلى تعلّم بناء صفحات ويب تفاعلية.</p>
+    </div>
+  </div>
+  <p>هذه صفحتي الأولى، وهي نفسها ملخّص لما تعلمته: كل محطة فيها شرح، وكود حقيقي يعمل أمامك، وشرح لكل سطر. جرّب الأزرار!</p>
+  <button type="button" id="partyBtn">🎨 غيّر ألوان الصفحة</button>
+</header>
+
+<section id="dev">
+  <h2>تعريف المطور <small>Meet the Developer</small></h2>
+  <div class="screen">
+    <div class="screenbar"><span></span><span></span><span></span><b>developer.reel</b></div>
+    <p class="gold" id="clipText">وُلد في الطائف، قارب الآفاق وحطّمها بواسع كبريائه. هدفه أن يضع أول خطوة على الذهب بقدمه، وأن يكون مهندس المجال الأول: <b>المطوّر المحترف عبدالعزيز عبدالعزيز محمد العصيمي</b></p>
+    <div class="progress"><i id="clipBar"></i></div>
+  </div>
+  <p style="margin:12px 0 0"><button type="button" id="replayBtn">▶ شغّل من جديد</button></p>
+  <div class="code"><div class="bar">index.html · developer</div><div id="c-dev"></div></div>
+</section>
+
+<section id="web">
+  <h2>ما الويب؟ <small>Station 02 · Web in my words</small></h2>
+  <p class="q">الويب هو شبكة صفحات ومواقع تفتحها من المتصفح؛ تكتب العنوان، فيطلب المتصفح الصفحة من جهاز بعيد اسمه الخادم، ثم يعرضها لك.</p>
+  <div class="card flow">
+    <div class="node"><b>👤 المستخدم</b>يكتب رابطًا أو يضغط على زر</div>
+    <div class="arrow">←</div>
+    <div class="node"><b>🖥️ المتصفح</b>يرسل الطلب ويرسم الصفحة</div>
+    <div class="arrow">←</div>
+    <div class="node"><b>🗄️ الخادم</b>يحتفظ بالملفات ويردّ بها</div>
+  </div>
+</section>
+
+<section id="html">
+  <h2>HTML · بناء الهيكل <small>Station 03</small></h2>
+  <p class="q">HTML هي التقنية المسؤولة عن هيكل الصفحة ومحتواها: العناوين والفقرات والروابط والصور.</p>
+  <div class="code"><div class="bar">index.html</div><div id="c-html"></div></div>
+  <div class="demo"><div class="lbl">النتيجة في المتصفح ←</div>
+    <h3>Hello, Web!</h3><p style="margin:0">This is my first page.</p></div>
+</section>
+
+<section id="css">
+  <h2>CSS · تنسيق الصفحة <small>Station 04</small></h2>
+  <p class="q">CSS هي المسؤولة عن الألوان والخطوط والمسافات؛ تقول للمتصفح كيف يبدو كل عنصر.</p>
+  <div class="code"><div class="bar">style.css</div><div id="c-css"></div></div>
+  <div class="ba">
+    <div class="demo"><div class="lbl">قبل ←</div><h1>Hello, Web!</h1></div>
+    <div class="demo"><div class="lbl">بعد ←</div><h1 class="purple">Hello, Web!</h1></div>
+  </div>
+  <div class="demo"><div class="lbl">جرّب بنفسك: الكلاس purple يُضاف ويُزال عند الضغط</div>
+    <h1 id="cssTitle">Hello, Web!</h1><button type="button" id="cssBtn">بدّل اللون</button></div>
+</section>
+
+<section id="js">
+  <h2>JavaScript · التفاعل <small>Station 05</small></h2>
+  <p class="q">JavaScript تضيف السلوك: تنتظر فعلًا من الزائر (ضغطة زر مثلًا) ثم تغيّر الصفحة.</p>
+  <div class="code"><div class="bar">script.js</div><div id="c-js"></div></div>
+  <div class="demo"><div class="lbl">الكود أعلاه يعمل هنا فعليًا ←</div>
+    <h3 id="jsTitle">Hello, Web!</h3>
+    <button type="button" id="jsBtn">اضغط عليّ</button></div>
+</section>
+
+<section id="fb">
+  <h2>Frontend vs Backend <small>Two sides of the web</small></h2>
+  <p class="q">المثال: متجر إلكتروني. اضغط على البطاقة لتقلبها وترى الجانب الآخر من الصورة.</p>
+  <div class="pair">
+    <button class="card flip fe" type="button" data-flip aria-label="اقلب بطاقة Frontend">
+      <div><div class="face fe"><h3>🖥️ Frontend</h3><p>كل ما تراه وتتفاعل معه: المنتجات، الأزرار، وسلة الشراء.</p><div class="mini"><span>HTML</span><span>CSS</span><span>JavaScript</span></div><p style="color:var(--mute)">اضغط للقلب ↻</p></div>
+      <div class="face back"><h3>مثال</h3><p>تضغط «أضف إلى السلة»، فيتغير رقم السلة فورًا أمامك. هذا يحدث في المتصفح على جهازك.</p></div></div>
+    </button>
+    <button class="card flip be" type="button" data-flip aria-label="اقلب بطاقة Backend">
+      <div><div class="face be"><h3>🗄️ Backend</h3><p>ما يحدث خلف الواجهة: تسجيل الدخول، حفظ الطلب، ومعالجة الدفع.</p><div class="mini"><span>خادم</span><span>قاعدة بيانات</span></div><p style="color:var(--mute)">اضغط للقلب ↻</p></div>
+      <div class="face back"><h3>مثال</h3><p>تضغط «تأكيد الطلب»، فيتحقق الخادم من حسابك، ويحفظ الطلب في قاعدة البيانات، ثم يردّ بالنتيجة.</p></div></div>
+    </button>
+  </div>
+</section>
+
+<section id="solve">
+  <h2>Solve Problems <small>Watch the video</small></h2>
+  <video controls preload="metadata">
+    <source src="video.mp4" type="video/mp4">
+    متصفحك لا يدعم تشغيل الفيديو.
+  </video>
+  <p class="q" style="margin-top:8px">ضع ملف الفيديو باسم video.mp4 في نفس مجلد الصفحة.</p>
+  <div class="code"><div class="bar">index.html · video</div><div id="c-video"></div></div>
+</section>
+
+<section id="rose" class="rose">
+  <h2>الورد الطائفي <small>The Rose of Taif</small></h2>
+  <p class="lead">في جبال الطائف الباردة، حيث الهواء رقيق والسماء قريبة، تتفتح كل ربيع ورود صغيرة تحمل عطرًا عُرفت به المدينة في كل مكان.</p>
+  <div class="rosegrid">
+    <article>
+      <h3>🌹 القصة</h3>
+      <p>تُزرع الورود في مزارع الشفا والهدا على الجبال المحيطة بالطائف. يخرج المزارعون في الفجر ويقطفونها بأيديهم قبل أن تشتد الشمس، لأن ندى الصباح يحفظ عطر الوردة. وتختلف الروايات فيمن جلب الوردة إلى الطائف أول مرة، لكن الثابت أنها صارت جزءًا من هوية المدينة وأهلها.</p>
+    </article>
+    <article>
+      <h3>✨ العطر والمسك</h3>
+      <p>عطر الورد الطائفي دافئ وعميق: حلاوة ناعمة كالعسل، ونفحة زهرية كثيفة، وأثر هادئ يبقى على الثياب ساعات، يقارب المسك في ثباته وحضوره. ولهذا يحضر في العطور والبخور وضيافة البيوت: يُرش ماء الورد على الضيف، ويُحفظ دهن الورد في قوارير صغيرة.</p>
+    </article>
+  </div>
+  <h3 style="margin-top:22px">رحلة الوردة: اضغط على كل مرحلة</h3>
+  <div class="steps" id="steps"></div>
+  <p class="steptext" id="stepText" aria-live="polite"></p>
+  <button type="button" id="petalBtn">🌹 انثر الورد</button>
+  <details>
+    <summary>شرح الكود سطرًا سطرًا (HTML)</summary>
+    <div class="code"><div class="bar">index.html · rose</div><div id="c-rose"></div></div>
+  </details>
+  <details>
+    <summary>شرح الكود سطرًا سطرًا (JavaScript)</summary>
+    <div class="code"><div class="bar">script.js · rose</div><div id="c-petals"></div></div>
+  </details>
+</section>
+
+<section id="design">
+  <h2>تصميم الخلفية <small>Heritage background</small></h2>
+  <p class="q">خلفية الموقع صورة تراثية من الطين النجدي وقت الغروب، وهذا شرح كودها:</p>
+  <div class="code"><div class="bar">style.css · background</div><div id="c-bg"></div></div>
+</section>
+
+<section id="ai">
+  <h2>How AI Helped Me <small>Build with AI</small></h2>
+  <div class="card ai">
+    <details open><summary>ما الأداة التي استعنت بها؟</summary><p>استعنت بكتاب برمجة HTML لتعلّم الأساسيات، وبأداة ذكاء اصطناعي في تنظيم الصفحة وكتابة الكود.</p></details>
+    <details><summary>كيف ساعدتني في إنجاز الصفحة؟</summary><p>ساعدني في تنظيم محتوى المحطات الخمس، وكتابة هيكل الصفحة وتنسيقها، وتبسيط الأمثلة.</p></details>
+    <details><summary>ما المفهوم أو الكود الذي فهمته أو عدّلته بنفسي؟</summary><p>[عدّل هذه الفقرة بكلامك: مثلًا فهمت كيف يربط <code>querySelector</code> الزر بالعنوان، وغيّرت الألوان والنصوص بنفسي].</p></details>
+  </div>
+</section>
+
+<footer>Learn It. Code It. Make It Yours. · GDGoC Taif University</footer>
+</div>
+
+<script>
+/* دالة تعرض الكود سطرًا سطرًا، وبجانب كل سطر شرحه */
+function explain(id, rows){
+  const box = document.getElementById(id);
+  rows.forEach(([code, note]) => {
+    const row = document.createElement("div"); row.className = "row";
+    const pre = document.createElement("pre"); pre.textContent = code;
+    const p = document.createElement("p"); p.textContent = note;
+    row.append(pre, p); box.append(row);
+  });
+}
+explain("c-dev", [
+ ['<section id="dev">', "وسم <section> يصنع قسمًا مستقلًا، وid=\"dev\" اسمه الذي يربطه رابط «تعريف المطور» في القائمة."],
+ ['  <div class="screen">', "صندوق يشبه شاشة التشغيل، وclass=\"screen\" يربطه بقاعدة CSS التي تعطيه الإطار الذهبي."],
+ ['    <p class="gold" id="clipText">...</p>', "الفقرة التي يكتب فيها JavaScript النص حرفًا حرفًا؛ id يسمح لـ JavaScript بالوصول لها."],
+ ['    <div class="progress"><i id="clipBar"></i></div>', "شريط التقدّم؛ يزيد عرض الوسم <i> مع كل حرف يُكتب."],
+ ['  <button id="replayBtn">▶ شغّل من جديد</button>', "زر يعيد تشغيل الكتابة من أول النص عند الضغط عليه."],
+ ["</section>", "إغلاق القسم."]
+]);
+explain("c-html", [
+ ["<h1>Hello, Web!</h1>", "وسم <h1> يفتح عنوانًا رئيسيًا، والنص بداخله هو ما يظهر، ثم </h1> يغلقه."],
+ ["<p>This is my first page.</p>", "وسم <p> يصنع فقرة نصية عادية تحت العنوان."],
+ ['<a href="https://pages.github.com">GitHub Pages</a>', "وسم <a> يصنع رابطًا، وخاصية href تحدد الوجهة التي ينتقل إليها الزائر."]
+]);
+explain("c-css", [
+ ["h1 {", "المحدّد h1: يعني «كل العناوين الرئيسية»، والقوس { يبدأ قائمة التنسيقات."],
+ ["  color: purple;", "الخاصية color تغيّر لون النص، وقيمتها purple (بنفسجي)، والفاصلة المنقوطة تنهي السطر."],
+ ["}", "القوس } يغلق القاعدة؛ هنا ينتهي تأثيرها."]
+]);
+explain("c-js", [
+ ['document.querySelector("h1")', "document هو الصفحة كلها، وquerySelector يبحث فيها عن أول عنصر يطابق \"h1\"."],
+ ['  .textContent = "Hello, Web!";', "textContent هو نص العنصر؛ علامة = تضع له قيمة جديدة."],
+ ['const btn = document.querySelector("#jsBtn");', "نحفظ الزر في متغير ثابت اسمه btn؛ علامة # تعني البحث بالـ id."],
+ ['const title = document.querySelector("#jsTitle");', "نحفظ العنوان في متغير اسمه title لنعدّله لاحقًا."],
+ ['btn.addEventListener("click", () => {', "نقول للزر: انتظر حدث الضغط click، وعندما يحدث نفّذ الدالة بين القوسين."],
+ ['  title.textContent = "You clicked me!";', "داخل الدالة: نغيّر نص العنوان."],
+ ['  title.style.color = "tomato";', "ونغيّر لونه إلى tomato عبر خاصية style."],
+ ["});", "نغلق الدالة ونغلق أمر addEventListener."]
+]);
+explain("c-video", [
+ ["<video controls preload=\"metadata\">", "وسم <video> يعرض مشغل فيديو؛ controls تظهر أزرار التشغيل والصوت، وpreload=\"metadata\" يحمّل معلومات الفيديو فقط لتخفيف التحميل."],
+ ['  <source src="video.mp4" type="video/mp4">', "وسم <source> يحدد ملف الفيديو في src، وtype يخبر المتصفح أن نوعه mp4."],
+ ["  متصفحك لا يدعم تشغيل الفيديو.", "نص احتياطي يظهر فقط إذا كان المتصفح قديمًا ولا يفهم وسم الفيديو."],
+ ["</video>", "إغلاق وسم الفيديو."]
+]);
+explain("c-rose", [
+ ['<section id="rose" class="rose">', "قسم مستقل اسمه rose يربطه رابط القائمة، وclass=\"rose\" يعطيه الإطار والتدرج الورديين من CSS."],
+ ["  <h2>الورد الطائفي</h2>", "عنوان القسم، وCSS يلوّنه بالوردي عبر القاعدة .rose h2."],
+ ['  <div class="rosegrid">', "صندوق يجمع بطاقتين جنب بعض (القصة والعطر)، وتصير بطاقة تحت بطاقة في الجوال."],
+ ["    <article><h3>القصة</h3><p>...</p></article>", "وسم <article> لمحتوى مستقل له عنوان h3 وفقرة p."],
+ ['  <div class="steps" id="steps"></div>', "صندوق فاضي؛ JavaScript يملؤه بأزرار مراحل رحلة الوردة."],
+ ['  <p class="steptext" id="stepText" aria-live="polite"></p>', "فقرة يتغير نصها حسب المرحلة، وaria-live=\"polite\" تخبر قارئ الشاشة بالتغيير."],
+ ['  <button type="button" id="petalBtn">🌹 انثر الورد</button>', "زر نثر البتلات؛ type=\"button\" يمنعه من إرسال نموذج، وid يربطه بالجافاسكربت."],
+ ["  <details><summary>شرح الكود</summary>...</details>", "وسم <details> يخفي المحتوى ويظهره عند الضغط على <summary>."]
+]);
+explain("c-petals", [
+ ["const stepsData = [[\"١ القطاف\", \"...\"], ...];", "مصفوفة فيها المراحل الأربع؛ كل مرحلة اسم ونص."],
+ ["stepsData.forEach(([name, text], i) => {", "نمر على كل مرحلة، ونصنع لها زرًا."],
+ ["  b.addEventListener(\"click\", () => show(i));", "عند ضغط الزر نستدعي show لعرض نص المرحلة."],
+ ["function show(i) { ... aria-pressed ... }", "تعرض نص المرحلة المختارة، وتلوّن زرها بتغيير aria-pressed."],
+ ["for (let i = 0; i < 28; i++) {", "حلقة تكرر الداخل 28 مرة: بتلة لكل دورة."],
+ ['  p.className = "petal";', "نعطي البتلة class يربطها بتنسيقها وحركة السقوط."],
+ ["  p.style.left = Math.random() * 100 + \"vw\";", "Math.random يعطي رقمًا عشوائيًا، فتبدأ كل بتلة من مكان مختلف على عرض الشاشة."],
+ ['  p.style.setProperty("--dx", ...);', "ننقل لـ CSS مقدار الانحراف الجانبي العشوائي عبر متغير --dx."],
+ ["  p.style.animationDuration = ...;", "مدة سقوط عشوائية بين 4 و8 ثوانٍ لحركة طبيعية."],
+ ['  p.addEventListener("animationend", () => p.remove());', "عند انتهاء السقوط نحذف البتلة حتى لا تتراكم في الصفحة."]
+]);
+explain("c-bg", [
+ ["html { background: #1a0a10; }", "لون احتياطي داكن يظهر إذا لم تُحمَّل الصورة."],
+ ["body::before {", "نصنع طبقة وهمية في بداية الصفحة نرسم عليها الخلفية، فلا نلمس بقية المحتوى."],
+ ['  content: ""; position: fixed; inset: 0;', "content مطلوب لتظهر الطبقة، وfixed مع inset:0 تغطي الشاشة كلها وتبقى ثابتة عند التمرير."],
+ ["  z-index: -1;", "ترسل الطبقة خلف كل عناصر الصفحة."],
+ ["  background: linear-gradient(rgba(12,6,12,var(--veil)), ...),", "طبقة داكنة شبه شفافة فوق الصورة؛ شفافيتها من المتغير --veil حتى يتحكم بها الزر."],
+ ['    url("bg.jpg") center / cover no-repeat;', "صورتك: center توسّطها، وcover تملأ الشاشة بلا تشويه، وno-repeat تمنع تكرارها."],
+ ["body.clear { --veil: .35; }", "عند إضافة class اسمه clear تقل عتمة الطبقة فتظهر الصورة أوضح."]
+]);
+
+/* الكتابة المتحركة لتعريف المطور */
+const clip = document.querySelector("#clipText");
+const bar = document.querySelector("#clipBar");
+const part1 = "وُلد في الطائف، قارب الآفاق وحطّمها بواسع كبريائه. هدفه أن يضع أول خطوة على الذهب بقدمه، وأن يكون مهندس المجال الأول: ";
+const part2 = "المطوّر المحترف عبدالعزيز عبدالعزيز محمد العصيمي";
+const total = part1.length + part2.length;
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let timer;
+function play(){
+  clearInterval(timer);
+  clip.textContent = "";
+  const a = document.createElement("span");
+  const b = document.createElement("b");
+  clip.append(a, b);
+  let i = reduce ? total : 0;
+  function draw(){
+    a.textContent = part1.slice(0, i);
+    b.textContent = part2.slice(0, Math.max(0, i - part1.length));
+    bar.style.width = (i / total * 100) + "%";
+  }
+  draw();
+  if (reduce) return;
+  timer = setInterval(() => { i++; draw(); if (i >= total) clearInterval(timer); }, 45);
+}
+document.querySelector("#replayBtn").addEventListener("click", play);
+let started = false;
+new IntersectionObserver((entries, obs) => {
+  if (entries[0].isIntersecting && !started) { started = true; play(); obs.disconnect(); }
+}, { threshold: 0.4 }).observe(clip);
+
+/* الكود الفعلي لتجربة JavaScript (نفس الأسطر الموضحة أعلاه) */
+const btn = document.querySelector("#jsBtn");
+const title = document.querySelector("#jsTitle");
+let clicked = false;
+btn.addEventListener("click", () => {
+  clicked = !clicked;
+  title.textContent = clicked ? "You clicked me!" : "Hello, Web!";
+  title.style.color = clicked ? "tomato" : "";
+});
+
+/* تجربة CSS: إضافة وإزالة الكلاس */
+document.querySelector("#cssBtn").addEventListener("click", () => {
+  document.querySelector("#cssTitle").classList.toggle("purple");
+});
+
+/* قلب بطاقات Frontend / Backend */
+document.querySelectorAll("[data-flip]").forEach(c => c.addEventListener("click", () => c.classList.toggle("on")));
+
+/* رحلة الوردة: أزرار المراحل */
+const stepsData = [
+  ["١ القطاف", "في الفجر تُقطف الزهور بالأيدي قبل ارتفاع الشمس، ليبقى عطرها في أوج قوته."],
+  ["٢ التقطير", "توضع الزهور مع الماء في قدور نحاسية وتُسخَّن بهدوء، فيصعد البخار حاملًا العطر."],
+  ["٣ ماء الورد", "يبرد البخار ويتكثف، فيتحول إلى ماء الورد العطري الذي يُرش في الضيافة."],
+  ["٤ دهن الورد", "من التقطير المتكرر يُجمع دهن الورد الثمين، ويحتاج إلى كمية كبيرة جدًا من الورود."]
+];
+const stepsBox = document.querySelector("#steps");
+const stepText = document.querySelector("#stepText");
+function show(i){
+  stepText.textContent = stepsData[i][1];
+  stepsBox.querySelectorAll("button").forEach((b, k) => b.setAttribute("aria-pressed", k === i ? "true" : "false"));
+}
+stepsData.forEach(([name], i) => {
+  const b = document.createElement("button");
+  b.type = "button"; b.textContent = name;
+  b.addEventListener("click", () => show(i));
+  stepsBox.append(b);
+});
+show(0);
+
+/* نثر بتلات الورد */
+document.querySelector("#petalBtn").addEventListener("click", () => {
+  if (reduce) return;
+  for (let i = 0; i < 28; i++) {
+    const p = document.createElement("span");
+    p.className = "petal";
+    p.style.left = Math.random() * 100 + "vw";
+    p.style.setProperty("--dx", (Math.random() * 160 - 80) + "px");
+    p.style.animationDuration = (4 + Math.random() * 4) + "s";
+    p.style.animationDelay = (Math.random() * 1.5) + "s";
+    document.body.append(p);
+    p.addEventListener("animationend", () => p.remove());
+  }
+});
+
+/* تغيير ألوان الصفحة */
+document.querySelector("#partyBtn").addEventListener("click", () => document.body.classList.toggle("party"));
+
+/* خلفية أوضح / أغمق */
+const veilBtn = document.querySelector("#veilBtn");
+veilBtn.addEventListener("click", () => {
+  const clear = document.body.classList.toggle("clear");
+  veilBtn.textContent = clear ? "🌑 خلفية أغمق" : "🌅 خلفية أوضح";
+});
+</script>
+</body>
+</html>
